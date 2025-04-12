@@ -4,8 +4,9 @@
 #include <filesystem>
 
 #include "slinked_list.hpp"
+//#include "dynamic_arraay.hpp"
 
-std::ofstream measures_file;
+std::ofstream file;
 
 std::chrono::steady_clock::time_point begin, end;
 
@@ -16,7 +17,7 @@ void startTimer() {
 void stopTimer() {
     end = std::chrono::steady_clock::now();;
     std::cout << end - begin << ", ";
-    measures_file << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << ", ";
+    file << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << ",";
 }
 
 #define MEASURE_SOME(function) \
@@ -25,39 +26,38 @@ void stopTimer() {
     stopTimer();
 
 #define MEASURE_ALL(structure) \
+    file.open(#structure ".csv"); \
+    file << #structure << "\n"; \
+    file << "addFront, removeFront, addBack, removeBack, addChosen, removeChosen, findIndexOf\n"; \
     structure<int> List; \
-    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now(); \
-    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now(); \
-\
-    for(int i = 0; i < 10; i++) {\
-        List.addFront(156); \
-    } \
-\
-    for(int i = 0; i < 100; i++) { \
-        MEASURE_SOME(List.addFront(35)); \
-        MEASURE_SOME(List.removeFront()); \
-        MEASURE_SOME(List.addBack(35)); \
-        MEASURE_SOME(List.removeBack()); \
-        MEASURE_SOME(List.addChosen(7, 3)); \
-        MEASURE_SOME(List.removeChosen(4)); \
-        MEASURE_SOME(List.front()); \
-        MEASURE_SOME(List.back()); \
-        MEASURE_SOME(List.chosen(3)); \
-        std::cout << std::endl; \
-    } \
+    begin = std::chrono::steady_clock::now(); \
+    end = std::chrono::steady_clock::now(); \
+    \
+    std::vector<int> listSizes = {0, 10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000, 500000, 1000000}; \
+    for (int a = 1; a < 12; a++) {\
+        int n = listSizes[a]; \
+        for(int i = 1; i < listSizes[a] - listSizes[a - 1]; i++) {\
+            List.addFront(156); \
+        } \
+        for(int i = 0; i < 100; i++) { \
+            file << n << ","; \
+            MEASURE_SOME(List.addFront(35)); \
+            MEASURE_SOME(List.removeFront()); \
+            MEASURE_SOME(List.addBack(35)); \
+            MEASURE_SOME(List.removeBack()); \
+            MEASURE_SOME(List.addChosen(7, n / 2)); \
+            MEASURE_SOME(List.removeChosen(n / 2)); \
+            MEASURE_SOME(List.findIndexOf(n / 2)); \
+            file << "\n"; \
+            std::cout << std::endl; \
+        } \
+        file << "\n"; \
+    }\
+    file.close();
 
 
 int main() {
-    measures_file.open("measures_file.txt");
-
-    if (!measures_file.is_open()) {
-        std::cerr << "Error opening measures.csv for writing!" << std::endl;
-        return 1;
-    }
-
     MEASURE_ALL(SLinkedList);
-
-    measures_file.close();
 
     return EXIT_SUCCESS;
 }

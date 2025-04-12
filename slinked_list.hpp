@@ -141,7 +141,7 @@ public:
         t->next = nodeToDelete->next;
         delete nodeToDelete;
     }
-    int findIndex(const T& e) const {
+    int findIndexOf(const T& e) const {
         Node<T>* t = head;
         int index = 0;
         while (t != nullptr) {
@@ -150,7 +150,7 @@ public:
             t = t->next;
             index++;
         }
-        throw std::out_of_range("out of range");
+        return -1;
     }
 private:
     Node<T>* head;
