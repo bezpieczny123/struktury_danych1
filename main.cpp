@@ -26,6 +26,13 @@ void stopTimer() {
 
 
 int main() {
+    measures_file.open("measures_file.txt");
+
+    if (!measures_file.is_open()) {
+        std::cerr << "Error opening measures.csv for writing!" << std::endl;
+        return 1;
+    }
+
     SLinkedList<int> list;
     list.addFront(10);
     list.addFront(13);
@@ -41,7 +48,11 @@ int main() {
         std::cout << list.chosenElement(i) << std::endl;
     }
 
-    std::cout << list.findIndex(45) << std::endl;
+    std::cout << list.findIndex(45) << std::endl << std::endl;
 
-    return 0;
+    MEASURE_SOMETHING(list.addFront(25));
+    MEASURE_SOMETHING(list.addBack(50));
+
+    measures_file.close();
+    return EXIT_SUCCESS;
 }
