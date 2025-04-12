@@ -1,4 +1,28 @@
+#include <chrono>
+#include <iostream>
+#include <fstream>
+#include <filesystem>
+
 #include "slinked_list.hpp"
+
+std::ofstream measures_file;
+
+std::chrono::steady_clock::time_point begin, end;
+
+void startTimer() {
+    begin = std::chrono::steady_clock::now();
+}
+
+void stopTimer() {
+    end = std::chrono::steady_clock::now();;
+    measures_file << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << ", ";
+}
+
+#define MEASURE_SOMETHING(function) \
+    startTimer(); \
+    function; \
+    stopTimer();
+
 
 
 int main() {
