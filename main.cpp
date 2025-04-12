@@ -15,14 +15,36 @@ void startTimer() {
 
 void stopTimer() {
     end = std::chrono::steady_clock::now();;
+    std::cout << end - begin << ", ";
     measures_file << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << ", ";
 }
 
-#define MEASURE_SOMETHING(function) \
+#define MEASURE_SOME(function) \
     startTimer(); \
     function; \
     stopTimer();
 
+#define MEASURE_ALL(structure) \
+    structure<int> List; \
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now(); \
+    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now(); \
+\
+    for(int i = 0; i < 10; i++) {\
+        List.addFront(156); \
+    } \
+\
+    for(int i = 0; i < 100; i++) { \
+        MEASURE_SOME(List.addFront(35)); \
+        MEASURE_SOME(List.removeFront()); \
+        MEASURE_SOME(List.addBack(35)); \
+        MEASURE_SOME(List.removeBack()); \
+        MEASURE_SOME(List.addChosen(7, 3)); \
+        MEASURE_SOME(List.removeChosen(4)); \
+        MEASURE_SOME(List.front()); \
+        MEASURE_SOME(List.back()); \
+        MEASURE_SOME(List.chosen(3)); \
+        std::cout << std::endl; \
+    } \
 
 
 int main() {
@@ -33,26 +55,9 @@ int main() {
         return 1;
     }
 
-    SLinkedList<int> list;
-    list.addFront(10);
-    list.addFront(13);
-    list.addFront(13);
-    list.addFront(13);
-    list.addFront(13);
-    list.addBack(21);
-    list.addChosen(45, 2);
-    list.removeFront();
-    list.removeBack();
-
-    for (int i = 0; i < 10; i++) {
-        std::cout << list.chosenElement(i) << std::endl;
-    }
-
-    std::cout << list.findIndex(45) << std::endl << std::endl;
-
-    MEASURE_SOMETHING(list.addFront(25));
-    MEASURE_SOMETHING(list.addBack(50));
+    MEASURE_ALL(SLinkedList);
 
     measures_file.close();
+
     return EXIT_SUCCESS;
 }
