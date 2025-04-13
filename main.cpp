@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+#include <vector>
 
 #include "slinked_list.hpp"
 #include "dynamic_array.hpp"
@@ -15,9 +16,10 @@ void startTimer() {
 }
 
 void stopTimer() {
-    end = std::chrono::steady_clock::now();;
-    std::cout << end - begin << ", ";
-    file << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << ",";
+    end = std::chrono::steady_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count();
+    std::cout << duration << ", ";
+    file << duration << ",";
 }
 
 #define MEASURE_SOME(function_call) \
