@@ -30,6 +30,10 @@ public:
 		std::cout << std::endl;
 	}
 
+	size_t getSize() const {
+		return size;
+	}
+
 	void resize() {
 		capacity *= 2;
 		T* new_data = new T[capacity];
