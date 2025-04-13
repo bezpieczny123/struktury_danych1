@@ -3,6 +3,7 @@
 #include <fstream>
 #include <filesystem>
 
+#include "dlinked_list.hpp"
 #include "slinked_list.hpp"
 #include "dynamic_array.hpp"
 
@@ -33,9 +34,9 @@ void measure_structure(const std::string& structureName, const std::vector<int>&
     file << "addFront, removeFront, addBack, removeBack, addChosen, removeChosen, findIndexOf\n"; \
     StructureType<int> List;
     for (int a = 1; a < 12; a++) {
-        int n = listSizes[a];
+        const int n = listSizes[a];
         for(int i = 1; i < listSizes[a] - listSizes[a - 1]; i++) {
-            if (structureName == "SLinkedList") {
+            if (structureName == "SLinkedList" or structureName == "DLinkedList") {
                 List.addFront(23);
             } else {
                 List.addBack(23);
@@ -62,6 +63,7 @@ int main() {
     std::vector<int> listSizes = {0, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000, 256000, 512000, 1024000};
     measure_structure<SLinkedList>("SLinkedList", listSizes);
     measure_structure<DynamicArray>("DynamicArray", listSizes);
+    measure_structure<DLinkedList>("DLinkedList", listSizes);
 
     return EXIT_SUCCESS;
 }
