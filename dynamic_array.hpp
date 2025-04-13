@@ -5,7 +5,6 @@
 #include <stdexcept>
 
 
-
 template <typename T>
 class DynamicArray {
 
@@ -16,7 +15,7 @@ private:
 
 
 public:
-	explicit DynamicArray() : capacity(10), size(0) {
+	explicit DynamicArray() : capacity(1), size(0) {
 		data = new T[capacity];
 	}
 
