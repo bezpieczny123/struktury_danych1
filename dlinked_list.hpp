@@ -46,7 +46,7 @@ public:
         DNode<T> *temp = head->next;
         for (int j = 0; j < i; j++) {
             temp = temp->next;
-            if (temp == nullptr) return -1;
+            if (temp == tail) return -1;
         }
         return temp->elem;
     }
