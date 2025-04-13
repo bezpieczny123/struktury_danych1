@@ -18,7 +18,7 @@ void startTimer() {
 
 void stopTimer() {
     end = std::chrono::steady_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count();
+    const auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count();
     std::cout << duration << ", ";
     file << duration << ",";
 }

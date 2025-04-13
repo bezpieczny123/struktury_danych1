@@ -46,7 +46,7 @@ public:
         DNode<T> *temp = head->next;
         for (int j = 0; j < i; j++) {
             temp = temp->next;
-            if (temp == tail) return -1;
+            if (temp == nullptr) return -1;
         }
         return temp->elem;
     }
@@ -83,7 +83,7 @@ public:
     int findIndexOf(const T& elem) {
         if (isEmpty()) throw std::out_of_range("List is empty");
         DNode<T>* temp = head->next;
-        int index = 0;
+        constexpr int index = 0;
         while (temp != tail && temp->next) {
             temp = temp->next;
         }
