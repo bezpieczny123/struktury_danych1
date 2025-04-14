@@ -7,6 +7,7 @@
 #include "dlinked_list.hpp"
 #include "slinked_list.hpp"
 #include "dynamic_array.hpp"
+#include "htlinked_list.hpp"
 
 std::ofstream file;
 
@@ -38,7 +39,7 @@ void measure_structure(const std::string& structureName, const std::vector<int>&
     for (int a = 1; a < 12; a++) {
         const int n = listSizes[a];
         for(int i = 1; i < listSizes[a] - listSizes[a - 1]; i++) {
-            if (structureName == "SLinkedList" or structureName == "DLinkedList") {
+            if (structureName == "SLinkedList" or structureName == "DLinkedList" or structureName == "HTLinkedList") {
                 List.addFront(23);
             } else {
                 List.addBack(23);
@@ -66,6 +67,7 @@ int main() {
     measure_structure<SLinkedList>("SLinkedList", listSizes);
     measure_structure<DynamicArray>("DynamicArray", listSizes);
     measure_structure<DLinkedList>("DLinkedList", listSizes);
+	measure_structure<HTLinkedList>("HTLinkedList", listSizes);
 
     return EXIT_SUCCESS;
 }
