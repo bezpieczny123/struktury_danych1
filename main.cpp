@@ -36,14 +36,16 @@ void measure_structure(const std::string& structureName, const std::vector<int>&
     file << structureName << "\n";
     file << "addFront, removeFront, addBack, removeBack, addChosen, removeChosen, findIndexOf\n"; \
     StructureType<int> List;
+    int global_index = 0;
     for (int a = 1; a < 12; a++) {
         const int n = listSizes[a];
         for(int i = 1; i < listSizes[a] - listSizes[a - 1]; i++) {
             if (structureName == "SLinkedList" or structureName == "DLinkedList" or structureName == "HTLinkedList") {
-                List.addFront(23);
+                List.addFront(global_index);
             } else {
-                List.addBack(23);
+                List.addBack(global_index);
             }
+            global_index++;
         }
         for(int i = 0; i < 100; i++) {
             file << n << ",";
