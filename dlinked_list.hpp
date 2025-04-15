@@ -81,13 +81,16 @@ public:
         remove(temp);
     }
     int findIndexOf(const T& elem) {
-        if (isEmpty()) throw std::out_of_range("List is empty");
         DNode<T>* temp = head->next;
-        constexpr int index = 0;
-        while (temp != tail && temp->next) {
+        int index = 0;
+
+        while (temp != tail) {
+            if (temp->elem == elem) {
+                return index;
+            }
             temp = temp->next;
+            index++;
         }
-        if (temp->elem == elem) return index;
         return -1;
     }
     private:
